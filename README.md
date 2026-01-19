@@ -56,8 +56,6 @@ Five Lanterns is under active development.
 Visual polish, prompt expansion, and accessibility improvements are ongoing.
 
 
-## License
-
 # Five Lanterns License
 
 Copyright © 2026 Jenny Overbey
