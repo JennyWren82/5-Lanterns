@@ -1,0 +1,23 @@
+{
+  "label": "Avoidance",
+  "flame_color": "#A3C1FF",
+  "prompts": [
+    "Was there an emotion I tried to avoid today? What made that feel necessary?",
+    "Are there things I do to protect myself?",
+    "How likely do I feel like I need to protect myself from something likely to occur?",
+    "Have I struggled to be myself lately?",
+    "What situations, feelings, or thoughts do I tend to steer away from?",
+    "What do I notice in my body right before I avoid something?",
+    "How do I justify what I avoid to myself?",
+    "What emotions show up when I think about a thought, activity, or obligation I want to avoid?",
+    "What small signals do I notice when I'm feeling a desire to avoid something?",
+    "What stories do I tell myself about why I can’t or shouldn’t engage?",
+    "What assumptions do I have about my abilities relating to difficulty?",
+    "What would it be like to observe the urge to avoid without acting on it?",
+    "What influences from my past might shape how I respond to similar situations now?",
+    "What influences from my current environment might be contributing to engagement?",
+    "What values or goals feel connected to the things I’m avoiding, even if indirectly?",
+    "What do I notice about the pace of my thinking when avoidance is present?",
+    "How do I relate to myself in the moments when I notice I’m avoiding something?"
+  ]
+}

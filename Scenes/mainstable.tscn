@@ -1,0 +1,427 @@
+[gd_scene load_steps=19 format=3 uid="uid://bysgu64d8mohf"]
+
+[ext_resource type="Script" uid="uid://clc8rtbfvv26t" path="res://Scenes/main.gd" id="1_jesg8"]
+[ext_resource type="Texture2D" uid="uid://cjk4nge0b5vty" path="res://window_frame.png" id="2_lrkn0"]
+[ext_resource type="Texture2D" uid="uid://cxkwaw4ejg5p5" path="res://WindowGlow.png" id="3_qc6de"]
+[ext_resource type="Texture2D" uid="uid://bns0f34r557mk" path="res://HookSprite.png" id="4_6pep3"]
+[ext_resource type="Script" uid="uid://deuus0jde8l2k" path="res://Scenes/hook_pivot.gd" id="5_knef4"]
+[ext_resource type="PackedScene" uid="uid://xujt7nsgf48y" path="res://Scenes/Lantern.tscn" id="6_4j515"]
+[ext_resource type="Texture2D" uid="uid://d3uo3j4xr4qww" path="res://glow.png" id="7_c4ip0"]
+[ext_resource type="Texture2D" uid="uid://l2pwclvbp834" path="res://Backdrop.png" id="8_8wgjr"]
+[ext_resource type="Shader" uid="uid://2pkx3fpy86u4" path="res://Scenes/main.gdshader" id="9_p0aul"]
+[ext_resource type="Shader" uid="uid://cotyp8pjmjs4h" path="res://addons/NormalMap/normalmap.gdshader" id="10_e425a"]
+[ext_resource type="OccluderPolygon2D" uid="uid://cuovtaxo8k3p1" path="res://occluder.tres" id="11_jh4cl"]
+
+[sub_resource type="SystemFont" id="SystemFont_jjvhh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d1ilt"]
+bg_color = Color(0.59607846, 0.49803922, 0.49803922, 0.29803923)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6iyac"]
+shader = ExtResource("9_p0aul")
+shader_parameter/vignette_strength = 1.0
+shader_parameter/vignette_start = 0.070000003325
+shader_parameter/vignette_end = 0.95
+shader_parameter/vignette_color = Color(0.1254902, 0, 0, 0.6784314)
+
+[sub_resource type="Gradient" id="Gradient_d1ilt"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_6iyac"]
+gradient = SubResource("Gradient_d1ilt")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d1ilt"]
+shader = ExtResource("10_e425a")
+shader_parameter/emboss_height = 0.1
+shader_parameter/bump_height = 0.3
+shader_parameter/blur = 5
+shader_parameter/bump = 60
+shader_parameter/invertX = false
+shader_parameter/invertY = false
+shader_parameter/with_distance = true
+shader_parameter/with_emboss = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_6iyac"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_jesg8")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="PanelContainer" parent="UI"]
+layout_direction = 1
+anchors_preset = -1
+anchor_left = 0.002
+anchor_right = 1.0
+anchor_bottom = 0.99000007
+offset_left = -0.5600002
+offset_top = -7.0
+offset_right = 2.0
+offset_bottom = 0.19995117
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="UI/Panel"]
+custom_minimum_size = Vector2(1280, 80)
+layout_direction = 1
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 4
+
+[node name="Buttons" type="HBoxContainer" parent="UI/Panel/VBox"]
+layout_mode = 2
+
+[node name="PromptScroll" type="ScrollContainer" parent="UI/Panel/VBox"]
+custom_minimum_size = Vector2(720, 80)
+layout_direction = 2
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="PromptVBox" type="VBoxContainer" parent="UI/Panel/VBox/PromptScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.75
+
+[node name="PromptText" type="RichTextLabel" parent="UI/Panel/VBox/PromptScroll/PromptVBox"]
+custom_minimum_size = Vector2(500, 120)
+layout_mode = 2
+theme_override_fonts/normal_font = SubResource("SystemFont_jjvhh")
+theme_override_font_sizes/normal_font_size = 16
+text = "Choose a lantern...
+"
+fit_content = true
+meta_underlined = false
+hint_underlined = false
+
+[node name="ResponseEdit" type="TextEdit" parent="UI/Panel/VBox"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+size_flags_stretch_ratio = 1.5
+theme_override_colors/selection_color = Color(0.556953, 0.556953, 0.5569529, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_d1ilt")
+placeholder_text = "Write about what you noticed...."
+wrap_mode = 1
+
+[node name="ResponseButtons" type="HBoxContainer" parent="UI/Panel/VBox"]
+layout_mode = 2
+
+[node name="SaveButton" type="Button" parent="UI/Panel/VBox/ResponseButtons"]
+layout_mode = 2
+text = "Save"
+
+[node name="SkipButton" type="Button" parent="UI/Panel/VBox/ResponseButtons"]
+layout_mode = 2
+text = "Skip"
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+position = Vector2(-467.00003, 445.00006)
+scale = Vector2(5, 5)
+color = Color(0.96, 0.96, 0.96, 1)
+
+[node name="WindowFrame" type="Sprite2D" parent="."]
+position = Vector2(480, 873)
+scale = Vector2(1.0000001, 1.0000001)
+texture = ExtResource("2_lrkn0")
+
+[node name="Fragment_1" type="Polygon2D" parent="WindowFrame"]
+position = Vector2(-139.93127, -219.42871)
+color = Color(0.57254905, 0.57254905, 0.57254905, 0)
+polygon = PackedVector2Array(15.931274, 148.42871, 61.931274, 122.42871, 93.931274, 101.42871, 91.931274, 85.42871, 93.931274, 69.42871, 99.931274, 54.42871, 103.931274, 46.42871, -21.068726, -61.57129, -42.068726, -43.57129, -55.068726, -26.57129, -67.068726, -11.571289, -76.068726, 4.428711, -98.068726, 44.42871, -114.068726, 90.42871, -126.068726, 145.42871, -128.06873, 188.42871, -129.06873, 223.42871, -44.068726, 178.42871)
+
+[node name="Fragment_2" type="Polygon2D" parent="WindowFrame"]
+position = Vector2(20.411133, 155.42334)
+color = Color(0.57254905, 0.57254905, 0.57254905, 0)
+polygon = PackedVector2Array(106.58887, -385.42334, 55.588867, -329.42334, 26.588867, -298.42334, 21.588867, -272.42334, 43.588867, -259.42334, 59.588867, -246.42334, 81.58887, -234.42334, 118.58887, -212.42334, 153.58887, -196.42334, 182.58887, -183.42334, 247.58887, -156.42334, 247.58887, -193.42334, 244.58887, -224.42334, 237.58887, -256.42334, 228.58887, -292.42334, 203.58887, -351.42334, 184.58887, -382.42334, 164.58887, -412.42334, 142.58887, -435.42334)
+
+[node name="Fragment_3" type="Polygon2D" parent="WindowFrame"]
+position = Vector2(7, 31)
+color = Color(0.57254905, 0.57254905, 0.57254905, 0)
+polygon = PackedVector2Array(-28.913696, -208.97482, -156.9137, -321.97482, -132.9137, -346.97482, -111.9137, -364.97482, -84.9137, -382.97482, -53.913696, -399.97482, -31.913696, -408.97482, -12.913696, -414.97482, -0.9136963, -417.97482, 9.086304, -416.97482, 47.086304, -400.97482, 88.0863, -377.97482, 113.0863, -356.97482, 137.0863, -337.97482, 153.0863, -320.97482, 143.0863, -303.97482, 122.0863, -275.97482, 90.0863, -235.97482, 43.086304, -188.97482, 25.086304, -205.97482, 10.086304, -214.97482, 4.0863037, -215.97482, -6.9136963, -214.97482, -14.913696, -213.97482)
+
+[node name="Fragment_4" type="Polygon2D" parent="WindowFrame"]
+position = Vector2(-13, 103)
+color = Color(0.57254905, 0.57254905, 0.57254905, 0)
+polygon = PackedVector2Array(-251.70691, -87.3793, -19.70691, -209.3793, -9.706909, -204.3793, 6.293091, -195.3793, 23.29309, -196.3793, 39.29309, -200.3793, 54.29309, -212.3793, 130.29309, -165.3793, 173.29309, -140.3793, 208.29309, -124.3793, 249.29309, -105.3793, 286.2931, -93.3793, 286.2931, 243.6207, -255.70691, 247.6207, -256, 200)
+
+[node name="Fragment_5" type="Polygon2D" parent="WindowFrame"]
+position = Vector2(5.9246826, -139.78465)
+color = Color(0.57254905, 0.57254905, 0.57254905, 0)
+polygon = PackedVector2Array(-1.9246826, -33.215347, -8.924683, -34.215347, -16.924683, -33.215347, -24.924683, -29.215347, -31.924683, -25.215347, -37.924683, -18.215347, -41.924683, -8.215347, -43.924683, 0.7846527, -42.924683, 8.784653, -40.924683, 16.784653, -33.924683, 26.784653, -26.924683, 31.784653, -18.924683, 35.784653, -8.924683, 36.784653, 1.0753174, 35.784653, 11.075317, 31.784653, 20.075317, 23.784653, 25.075317, 12.784653, 25.075317, 3.7846527, 25.075317, -7.2153473, 22.075317, -15.215347, 16.075317, -24.215347, 9.075317, -31.215347)
+
+[node name="GlassOverlay" type="Sprite2D" parent="WindowFrame"]
+top_level = true
+position = Vector2(479, 873)
+texture = ExtResource("2_lrkn0")
+
+[node name="backlight" type="PointLight2D" parent="WindowFrame/GlassOverlay"]
+position = Vector2(-8.615036, 3.363205)
+scale = Vector2(0.9465738, 0.9758532)
+color = Color(0.91806465, 0.8639368, 0.7562025, 1)
+energy = 0.15
+shadow_color = Color(0, 0.14901961, 0.79607844, 0.8627451)
+shadow_filter = 2
+shadow_filter_smooth = 8.6
+texture = ExtResource("3_qc6de")
+height = 3.0
+
+[node name="LanternRing" type="Node2D" parent="WindowFrame"]
+
+[node name="LanternPos_1" type="Marker2D" parent="WindowFrame/LanternRing"]
+position = Vector2(-535, -3)
+gizmo_extents = 1.0
+
+[node name="LanternPos_2" type="Marker2D" parent="WindowFrame/LanternRing"]
+position = Vector2(-540, -300)
+
+[node name="LanternPos_3" type="Marker2D" parent="WindowFrame/LanternRing"]
+position = Vector2(0, -610)
+
+[node name="LanternPos_4" type="Marker2D" parent="WindowFrame/LanternRing"]
+position = Vector2(583, -352)
+
+[node name="LanternPos_5" type="Marker2D" parent="WindowFrame/LanternRing"]
+position = Vector2(589, 17)
+
+[node name="HookRoot" type="Node2D" parent="WindowFrame/LanternRing"]
+position = Vector2(-547, -62)
+
+[node name="HookPivot" type="Node2D" parent="WindowFrame/LanternRing/HookRoot"]
+position = Vector2(0, -2)
+
+[node name="HookSprite" type="Sprite2D" parent="WindowFrame/LanternRing/HookRoot/HookPivot"]
+position = Vector2(3, 20)
+scale = Vector2(0.25, 0.137)
+texture = ExtResource("4_6pep3")
+
+[node name="SwingPivot" type="Node2D" parent="WindowFrame/LanternRing/HookRoot"]
+position = Vector2(0, 48)
+script = ExtResource("5_knef4")
+swing_degrees = 5.0
+swing_speed = 0.75
+
+[node name="Lantern_1" parent="WindowFrame/LanternRing/HookRoot/SwingPivot" instance=ExtResource("6_4j515")]
+position = Vector2(1, 141)
+flame_color = Color(0.8117647, 1, 0, 1)
+sway_degrees = 0.0
+sway_speed = 0.0
+bob_pixels = 0.0
+bob_speed = 0.0
+
+[node name="Body" parent="WindowFrame/LanternRing/HookRoot/SwingPivot/Lantern_1" index="0"]
+position = Vector2(0, 8)
+
+[node name="FlameGlow" type="PointLight2D" parent="WindowFrame/LanternRing/HookRoot/SwingPivot/Lantern_1/Flame" index="0"]
+position = Vector2(2.3758316, 1.0608892)
+scale = Vector2(2.292506, 2.1120808)
+color = Color(0.8906582, 0.95054644, 0.42684484, 1)
+energy = 1.16
+blend_mode = 2
+shadow_enabled = true
+shadow_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+shadow_filter = 1
+texture = ExtResource("7_c4ip0")
+height = 50.0
+
+[node name="HookRoot2" type="Node2D" parent="WindowFrame/LanternRing"]
+position = Vector2(-546, -430)
+
+[node name="HookPivot" type="Node2D" parent="WindowFrame/LanternRing/HookRoot2"]
+
+[node name="SwingPivot" type="Node2D" parent="WindowFrame/LanternRing/HookRoot2"]
+script = ExtResource("5_knef4")
+swing_degrees = 3.0
+swing_speed = 0.5
+
+[node name="Lantern_2" parent="WindowFrame/LanternRing/HookRoot2/SwingPivot" instance=ExtResource("6_4j515")]
+position = Vector2(-1, 181)
+flame_color = Color(0.5182273, 0.671839, 0.9999997, 1)
+sway_degrees = 0.0
+sway_speed = 0.0
+bob_pixels = 0.0
+bob_speed = 0.0
+
+[node name="Flame" parent="WindowFrame/LanternRing/HookRoot2/SwingPivot/Lantern_2" index="1"]
+position = Vector2(-2.8750136, 36.999992)
+scale = Vector2(0.21655273, 0.25195318)
+
+[node name="FlameGlow2" type="PointLight2D" parent="WindowFrame/LanternRing/HookRoot2/SwingPivot/Lantern_2/Flame" index="0"]
+light_mask = 2
+position = Vector2(-19.323425, -45.21586)
+scale = Vector2(2.3017702, 1.9863957)
+color = Color(0.8080327, 0.87105894, 0.99999803, 1)
+blend_mode = 2
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 0.6627451)
+texture = ExtResource("7_c4ip0")
+height = 3.0
+
+[node name="HookSprite" type="Sprite2D" parent="WindowFrame/LanternRing/HookRoot2"]
+scale = Vector2(0.25, 0.137)
+texture = ExtResource("4_6pep3")
+
+[node name="HookRoot3" type="Node2D" parent="WindowFrame/LanternRing"]
+position = Vector2(0.99999976, -755.99994)
+
+[node name="HookPivot" type="Node2D" parent="WindowFrame/LanternRing/HookRoot3"]
+position = Vector2(-9, 0)
+
+[node name="SwingPivot" type="Node2D" parent="WindowFrame/LanternRing/HookRoot3/HookPivot"]
+script = ExtResource("5_knef4")
+swing_degrees = 2.5
+swing_speed = 0.6
+
+[node name="Lantern_3" parent="WindowFrame/LanternRing/HookRoot3/HookPivot/SwingPivot" instance=ExtResource("6_4j515")]
+position = Vector2(7, 126)
+flame_color = Color(0.7058824, 0.56078434, 1, 1)
+sway_degrees = 0.0
+sway_speed = 0.0
+bob_pixels = 0.0
+bob_speed = 0.0
+
+[node name="FlameGlow2" type="PointLight2D" parent="WindowFrame/LanternRing/HookRoot3/HookPivot/SwingPivot/Lantern_3/Flame" index="0"]
+position = Vector2(-8.31554, -43.658836)
+scale = Vector2(2.346692, 2.1873553)
+color = Color(0.82857364, 0.7610428, 1, 1)
+blend_mode = 2
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 0.6627451)
+texture = ExtResource("7_c4ip0")
+height = 3.0
+
+[node name="HookSprite" type="Sprite2D" parent="WindowFrame/LanternRing/HookRoot3/HookPivot"]
+position = Vector2(8, -55)
+scale = Vector2(0.25, 0.137)
+texture = ExtResource("4_6pep3")
+
+[node name="HookRoot4" type="Node2D" parent="WindowFrame/LanternRing"]
+position = Vector2(580, -430)
+
+[node name="HookPivot" type="Node2D" parent="WindowFrame/LanternRing/HookRoot4"]
+
+[node name="SwingPivot" type="Node2D" parent="WindowFrame/LanternRing/HookRoot4/HookPivot"]
+position = Vector2(-2, 0)
+script = ExtResource("5_knef4")
+swing_degrees = 1.8
+swing_speed = 0.5
+
+[node name="Lantern_4" parent="WindowFrame/LanternRing/HookRoot4/HookPivot/SwingPivot" instance=ExtResource("6_4j515")]
+position = Vector2(0, 174)
+flame_color = Color(1, 0.54901963, 0.25882354, 1)
+sway_degrees = 0.0
+sway_speed = 0.0
+bob_pixels = 0.0
+bob_speed = 0.0
+
+[node name="Flame" parent="WindowFrame/LanternRing/HookRoot4/HookPivot/SwingPivot/Lantern_4" index="1"]
+z_index = 1
+z_as_relative = false
+
+[node name="FlameGlow2" type="PointLight2D" parent="WindowFrame/LanternRing/HookRoot4/HookPivot/SwingPivot/Lantern_4/Flame" index="0"]
+position = Vector2(1.0824776, -39.68993)
+scale = Vector2(2.3137174, 2.1420372)
+color = Color(0.9999997, 0.8146085, 0.7382379, 1)
+blend_mode = 2
+shadow_color = Color(0, 0, 0, 0.6627451)
+texture = ExtResource("7_c4ip0")
+height = 3.0
+
+[node name="HookSprite" type="Sprite2D" parent="WindowFrame/LanternRing/HookRoot4/HookPivot"]
+position = Vector2(-2, -6)
+scale = Vector2(0.25, 0.137)
+texture = ExtResource("4_6pep3")
+
+[node name="HookRoot5" type="Node2D" parent="WindowFrame/LanternRing"]
+position = Vector2(43, 7)
+
+[node name="HookPivot" type="Node2D" parent="WindowFrame/LanternRing/HookRoot5"]
+
+[node name="SwingPivot" type="Node2D" parent="WindowFrame/LanternRing/HookRoot5/HookPivot"]
+position = Vector2(540, -30)
+script = ExtResource("5_knef4")
+swing_degrees = 3.0
+swing_speed = 0.4
+
+[node name="Lantern_5" parent="WindowFrame/LanternRing/HookRoot5/HookPivot/SwingPivot" instance=ExtResource("6_4j515")]
+position = Vector2(0, 156)
+flame_color = Color(0.56078434, 0.827451, 0.65882355, 1)
+sway_degrees = 0.0
+sway_speed = 0.0
+bob_pixels = 0.0
+bob_speed = 0.0
+
+[node name="FlameGlow5" type="PointLight2D" parent="WindowFrame/LanternRing/HookRoot5/HookPivot/SwingPivot/Lantern_5/Flame" index="0"]
+position = Vector2(-1.1620035, -47.90214)
+scale = Vector2(2.3215911, 2.1155765)
+color = Color(0.7648977, 0.97213143, 0.7781312, 1)
+blend_mode = 2
+range_item_cull_mask = 2
+shadow_color = Color(0, 0.14901961, 0.79607844, 0.8627451)
+shadow_filter = 2
+shadow_filter_smooth = 8.6
+texture = ExtResource("7_c4ip0")
+height = 3.0
+
+[node name="HookSprite" type="Sprite2D" parent="WindowFrame/LanternRing/HookRoot5/HookPivot"]
+position = Vector2(541, -52)
+scale = Vector2(0.25, 0.137)
+texture = ExtResource("4_6pep3")
+
+[node name="Backdrop" type="Sprite2D" parent="."]
+auto_translate_mode = 1
+show_behind_parent = true
+light_mask = 3
+visibility_layer = 2
+position = Vector2(481, 667)
+scale = Vector2(1.6597898, 1.40448)
+texture = ExtResource("8_8wgjr")
+
+[node name="PointLight2D" type="PointLight2D" parent="Backdrop"]
+position = Vector2(-5.422395, 49.12854)
+scale = Vector2(0.5571497, 0.6560667)
+energy = 0.19
+shadow_enabled = true
+shadow_color = Color(0.2877365, 0.15487313, 0.15489104, 0.7019608)
+texture = ExtResource("3_qc6de")
+
+[node name="Polygon2D" type="Polygon2D" parent="Backdrop/PointLight2D"]
+material = SubResource("ShaderMaterial_6iyac")
+position = Vector2(9.732391, -74.88342)
+scale = Vector2(1.7948499, 1.5242354)
+color = Color(0.7337984, 0.7293076, 0.6635011, 0.39215687)
+texture = SubResource("GradientTexture1D_6iyac")
+polygon = PackedVector2Array(777.2069, 30.616302, 776.6044, -511.9333, -771.78455, -511.22128, -778.41187, 509.79727, 22.291992, 524.03735, 788.05164, 518.3413)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(481, 667)
+zoom = Vector2(0.5, 0.5)
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+visible = false
+energy = 16.0
+blend_mode = 2
+max_distance = 3085.0
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+material = SubResource("ShaderMaterial_d1ilt")
+position = Vector2(473.25003, 1214.9999)
+scale = Vector2(1.3310547, 0.12109375)
+shadow_enabled = true
+shadow_color = Color(0, 0, 0.34117648, 0.8509804)
+shadow_filter = 1
+texture = SubResource("NoiseTexture2D_6iyac")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="PointLight2D"]
+position = Vector2(-95.60089, -3864.773)
+scale = Vector2(0.75128394, 8.258064)
+occluder = ExtResource("11_jh4cl")
+
+[node name="Polygon2D" type="Polygon2D" parent="PointLight2D/LightOccluder2D"]
+position = Vector2(-2, 11)
+color = Color(0.3529412, 0.29411766, 0.4627451, 0.12156863)
+polygon = PackedVector2Array(-186, -80, -197, -11, -204, 57, -204, 128, -204, 437, -225, 445, -219, 503, -157, 501, -6, 499, 184, 499, 489, 499, 487, 430, 474, 389, 472, 181, 469, 55, 451, -68, 416, -177, 514, -57, 531, 123, 520, 237, 526, 351, 534, 459, 508, 550, 379, 548, -21, 548, -157, 556, -242, 541, -272, 479, -272, 387, -259, 289, -236, 190, -244, 104, -225, 17)
+
+[editable path="WindowFrame/LanternRing/HookRoot/SwingPivot/Lantern_1"]
+[editable path="WindowFrame/LanternRing/HookRoot2/SwingPivot/Lantern_2"]
+[editable path="WindowFrame/LanternRing/HookRoot3/HookPivot/SwingPivot/Lantern_3"]
+[editable path="WindowFrame/LanternRing/HookRoot4/HookPivot/SwingPivot/Lantern_4"]
+[editable path="WindowFrame/LanternRing/HookRoot5/HookPivot/SwingPivot/Lantern_5"]
