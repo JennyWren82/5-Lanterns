@@ -102,4 +102,4 @@ used in creating the prompts and ethical framework.
 
 Support is entirely optional and never required to use Five Lanterns.
 
-[Buy Me a Coffee / Donation Link Here]
+(https://buymeacoffee.com/jennywren82)
